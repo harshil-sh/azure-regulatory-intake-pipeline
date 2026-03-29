@@ -62,6 +62,40 @@ public sealed class IntakeOrchestratorTests
     }
 
     [Fact]
+    public async Task DocumentProcessingService_ProcessAsync_PersistsCompletedProcessingRecord()
+    {
+        var tableStorageService = new FakeTableStorageService();
+        var service = new DocumentProcessingService(
+            tableStorageService,
+            NullLogger<DocumentProcessingService>.Instance);
+        var message = new DocumentProcessingQueueMessage
+        {
+            IntakeId = "intake-001",
+            CorrelationId = "corr-123",
+            BlobName = "regulatory-report.pdf",
+            ContainerName = "validated-documents",
+            BlobUri = new Uri("http://127.0.0.1:10000/devstoreaccount1/validated-documents/regulatory-report.pdf"),
+            ContentType = "application/pdf",
+            Checksum = "abc123",
+            EnqueuedAtUtc = new DateTimeOffset(2026, 03, 29, 10, 15, 30, TimeSpan.Zero)
+        };
+
+        await service.ProcessAsync(message);
+
+        var persistedEntity = Assert.IsAssignableFrom<ITableEntity>(Assert.Single(tableStorageService.UpsertedEntities));
+        Assert.Equal(TableName.DocumentProcessing, Assert.Single(tableStorageService.TableNames));
+        Assert.Equal("DocumentProcessing", persistedEntity.PartitionKey);
+        Assert.Equal("intake-001", persistedEntity.RowKey);
+        Assert.Equal("Completed", GetEntityProperty<string>(persistedEntity, "Status"));
+        Assert.Equal("corr-123", GetEntityProperty<string>(persistedEntity, "CorrelationId"));
+        Assert.Equal("validated-documents", GetEntityProperty<string>(persistedEntity, "ContainerName"));
+        Assert.Equal(
+            "http://127.0.0.1:10000/devstoreaccount1/validated-documents/regulatory-report.pdf",
+            GetEntityProperty<string>(persistedEntity, "BlobUri"));
+        Assert.NotNull(GetEntityProperty<DateTimeOffset>(persistedEntity, "ProcessedAtUtc"));
+    }
+
+    [Fact]
     public async Task HandleBlobCreatedEventsAsync_RoutesInvalidDocumentToQuarantine_AndDoesNotPublishQueueMessage()
     {
         var blobStorageService = new FakeBlobStorageService(

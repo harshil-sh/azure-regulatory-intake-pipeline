@@ -123,4 +123,66 @@ public sealed class BlobCreatedEventIntakeFunctionTests
             constructor.GetParameters(),
             parameter => parameter.ParameterType == typeof(IIntakeOrchestrator));
     }
+
+    [Fact]
+    public void DocumentProcessingFunction_TryParseMessage_ReturnsMessage_ForValidPayload()
+    {
+        const string payload = """
+            {
+              "intakeId": "intake-001",
+              "correlationId": "corr-123",
+              "blobName": "regulatory-report.pdf",
+              "containerName": "validated-documents",
+              "blobUri": "http://127.0.0.1:10000/devstoreaccount1/validated-documents/regulatory-report.pdf",
+              "contentType": "application/pdf",
+              "checksum": "abc123",
+              "enqueuedAtUtc": "2026-03-29T10:15:30Z"
+            }
+            """;
+
+        var result = DocumentProcessingFunction.TryParseMessage(payload, out var message);
+
+        Assert.True(result);
+        Assert.NotNull(message);
+        Assert.Equal("intake-001", message!.IntakeId);
+        Assert.Equal("corr-123", message.CorrelationId);
+        Assert.Equal("validated-documents", message.ContainerName);
+    }
+
+    [Theory]
+    [InlineData("")]
+    [InlineData("   ")]
+    [InlineData("{ not-json")]
+    public void DocumentProcessingFunction_TryParseMessage_ReturnsFalse_ForInvalidPayload(string payload)
+    {
+        var result = DocumentProcessingFunction.TryParseMessage(payload, out var message);
+
+        Assert.False(result);
+        Assert.Null(message);
+    }
+
+    [Fact]
+    public void DocumentProcessingFunction_RunAsync_HasExpectedQueueTriggerConfiguration()
+    {
+        var method = typeof(DocumentProcessingFunction).GetMethod(nameof(DocumentProcessingFunction.RunAsync));
+
+        Assert.NotNull(method);
+
+        var messageParameter = method!.GetParameters().Single(parameter => parameter.ParameterType == typeof(string));
+        var triggerAttribute = Assert.IsType<QueueTriggerAttribute>(
+            messageParameter.GetCustomAttributes(typeof(QueueTriggerAttribute), inherit: false).Single());
+
+        Assert.Equal("%Storage__Queues__DocumentProcessing%", triggerAttribute.QueueName);
+        Assert.Equal("AzureWebJobsStorage", triggerAttribute.Connection);
+    }
+
+    [Fact]
+    public void DocumentProcessingFunction_Constructor_RequiresDocumentProcessingService()
+    {
+        var constructor = typeof(DocumentProcessingFunction).GetConstructors().Single();
+
+        Assert.Contains(
+            constructor.GetParameters(),
+            parameter => parameter.ParameterType == typeof(IDocumentProcessingService));
+    }
 }
