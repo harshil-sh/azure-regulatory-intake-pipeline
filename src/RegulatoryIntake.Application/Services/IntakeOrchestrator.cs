@@ -75,27 +75,14 @@ public sealed class IntakeOrchestrator : IIntakeOrchestrator
 
         var intakeId = Guid.NewGuid().ToString("N");
         var correlationId = ResolveCorrelationId(validationResult.Metadata, @event);
-        var destinationContainer = validationResult.IsValid
-            ? BlobContainerName.ValidatedDocuments
-            : BlobContainerName.QuarantineDocuments;
-        var status = validationResult.IsValid
-            ? DocumentIntakeStatus.Validated
-            : DocumentIntakeStatus.Quarantined;
-
-        await _blobStorageService
-            .CopyAsync(
-                BlobContainerName.RawDocuments,
+        var routingDecision = CreateRoutingDecision(validationResult.IsValid);
+        var routedBlob = await RouteBlobAsync(
+                intakeId,
+                correlationId,
                 blobName,
-                destinationContainer,
-                blobName,
+                routingDecision,
                 cancellationToken)
             .ConfigureAwait(false);
-        await _blobStorageService
-            .DeleteIfExistsAsync(BlobContainerName.RawDocuments, blobName, cancellationToken)
-            .ConfigureAwait(false);
-
-        var destinationBlobUri = _blobStorageService.GetBlobUri(destinationContainer, blobName);
-        var destinationContainerName = BlobAddress.Parse(destinationBlobUri).ContainerName;
 
         var intakeRecord = new DocumentIntakeRecord
         {
@@ -103,13 +90,13 @@ public sealed class IntakeOrchestrator : IIntakeOrchestrator
             EventId = @event.Id,
             CorrelationId = correlationId,
             BlobName = blobName,
-            ContainerName = destinationContainerName,
-            BlobUri = destinationBlobUri,
+            ContainerName = routedBlob.ContainerName,
+            BlobUri = routedBlob.BlobUri,
             ContentType = @event.Data.ContentType,
             ContentLength = @event.Data.ContentLength,
             ETag = @event.Data.ETag,
             Checksum = checksum,
-            Status = status,
+            Status = routingDecision.Status,
             ReceivedAtUtc = @event.EventTime,
             LastUpdatedAtUtc = @event.EventTime
         };
@@ -131,8 +118,8 @@ public sealed class IntakeOrchestrator : IIntakeOrchestrator
                 IntakeId = intakeId,
                 CorrelationId = correlationId,
                 BlobName = blobName,
-                ContainerName = destinationContainerName,
-                BlobUri = destinationBlobUri,
+                ContainerName = routedBlob.ContainerName,
+                BlobUri = routedBlob.BlobUri,
                 ContentType = intakeRecord.ContentType,
                 Checksum = checksum,
                 EnqueuedAtUtc = @event.EventTime
@@ -173,6 +160,62 @@ public sealed class IntakeOrchestrator : IIntakeOrchestrator
             ?? @event.Data.RequestId
             ?? @event.Id;
     }
+
+    private BlobRoutingDecision CreateRoutingDecision(bool isValid) =>
+        isValid
+            ? new BlobRoutingDecision(BlobContainerName.ValidatedDocuments, DocumentIntakeStatus.Validated)
+            : new BlobRoutingDecision(BlobContainerName.QuarantineDocuments, DocumentIntakeStatus.Quarantined);
+
+    private async Task<RoutedBlob> RouteBlobAsync(
+        string intakeId,
+        string correlationId,
+        string blobName,
+        BlobRoutingDecision routingDecision,
+        CancellationToken cancellationToken)
+    {
+        var sourceBlobUri = _blobStorageService.GetBlobUri(BlobContainerName.RawDocuments, blobName);
+        var sourceBlob = BlobAddress.Parse(sourceBlobUri);
+
+        _logger.LogInformation(
+            "Routing intake {IntakeId} for blob {BlobName} with correlationId {CorrelationId} from {SourceContainer} to {DestinationContainer} using copy-based movement.",
+            intakeId,
+            blobName,
+            correlationId,
+            sourceBlob.ContainerName,
+            routingDecision.DestinationContainer);
+
+        await _blobStorageService
+            .CopyAsync(
+                BlobContainerName.RawDocuments,
+                blobName,
+                routingDecision.DestinationContainer,
+                blobName,
+                cancellationToken)
+            .ConfigureAwait(false);
+        await _blobStorageService
+            .DeleteIfExistsAsync(BlobContainerName.RawDocuments, blobName, cancellationToken)
+            .ConfigureAwait(false);
+
+        var destinationBlobUri = _blobStorageService.GetBlobUri(routingDecision.DestinationContainer, blobName);
+        var destinationBlob = BlobAddress.Parse(destinationBlobUri);
+
+        _logger.LogInformation(
+            "Completed routing for intake {IntakeId}. SourceBlobUri {SourceBlobUri}; DestinationBlobUri {DestinationBlobUri}; Status {Status}.",
+            intakeId,
+            sourceBlob.BlobUri,
+            destinationBlob.BlobUri,
+            routingDecision.Status);
+
+        return new RoutedBlob(destinationBlob.ContainerName, destinationBlob.BlobUri);
+    }
+
+    private sealed record BlobRoutingDecision(
+        BlobContainerName DestinationContainer,
+        DocumentIntakeStatus Status);
+
+    private sealed record RoutedBlob(
+        string ContainerName,
+        Uri BlobUri);
 
     private sealed record BlobAddress(string ContainerName, string BlobName, Uri BlobUri)
     {
