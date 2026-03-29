@@ -178,7 +178,7 @@
     "task_id": 13,
     "phase": "Phase 6 \u2014 Quality",
     "title": "Add unit tests for metadata validation and checksum services",
-    "status": "not_started",
+    "status": "completed",
     "acceptance_criteria": [
       "unit tests exist for metadata validation",
       "unit tests exist for checksum generation",
