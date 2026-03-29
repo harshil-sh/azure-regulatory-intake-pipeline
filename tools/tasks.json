@@ -1,0 +1,233 @@
+[
+  {
+    "task_id": 1,
+    "phase": "Phase 1 — Repo foundation",
+    "title": "Create production-grade solution structure for Azure Functions pipeline",
+    "status": "not_started",
+    "acceptance_criteria": [
+      "solution and project structure exist for Functions, EventPublisher, tests, docs, infra, and sample-data",
+      "project names are clean and consistent with the regulatory intake domain",
+      "no feature implementation beyond foundational structure"
+    ],
+    "notes": [
+      "Use .NET 8 isolated Azure Functions style.",
+      "Keep the repo local-first and Azure-oriented."
+    ],
+    "prompt_hint": "Read README.md, docs/architecture.md, docs/adr-local-infra.md, docs/coding-standards.md, docs/sequence-diagram.md, docs/tradeoffs.md, docs/demo-script.md, and docs/TASKS.md first. Then create the initial production-grade solution structure only for this Azure Functions/Azurite regulatory intake pipeline."
+  },
+  {
+    "task_id": 2,
+    "phase": "Phase 1 — Repo foundation",
+    "title": "Add Docker Compose for Azurite with Blob, Queue, and Table services",
+    "status": "not_started",
+    "acceptance_criteria": [
+      "infra/docker-compose.yml exists",
+      "Azurite exposes blob, queue, and table ports",
+      "configuration is suitable for local development"
+    ],
+    "notes": [
+      "Do not add unrelated services.",
+      "Keep it simple and reproducible."
+    ]
+  },
+  {
+    "task_id": 3,
+    "phase": "Phase 1 — Repo foundation",
+    "title": "Add local settings and configuration scaffolding for storage-backed local execution",
+    "status": "not_started",
+    "acceptance_criteria": [
+      "local.settings.json.example exists",
+      "all required storage/container/table/queue settings are represented",
+      "configuration names are consistent across code and docs"
+    ],
+    "notes": [
+      "Use Azurite-compatible settings.",
+      "Do not add real secrets."
+    ]
+  },
+  {
+    "task_id": 4,
+    "phase": "Phase 2 — Core storage abstractions",
+    "title": "Implement Blob, Queue, and Table storage service abstractions",
+    "status": "not_started",
+    "acceptance_criteria": [
+      "storage service classes exist and compile",
+      "services are registered through dependency injection",
+      "abstractions are minimal and production-minded"
+    ],
+    "notes": [
+      "Avoid over-engineering.",
+      "Write the code as if it were real Azure-oriented code."
+    ]
+  },
+  {
+    "task_id": 5,
+    "phase": "Phase 2 — Intake pipeline",
+    "title": "Implement Event Grid-style event models and intake domain models",
+    "status": "not_started",
+    "acceptance_criteria": [
+      "Event Grid envelope model exists",
+      "blob-created event data model exists",
+      "intake and queue message models exist and are strongly typed"
+    ],
+    "notes": [
+      "Prefer explicit models over loose dictionaries."
+    ]
+  },
+  {
+    "task_id": 6,
+    "phase": "Phase 2 — Intake pipeline",
+    "title": "Implement metadata validation and checksum services",
+    "status": "not_started",
+    "acceptance_criteria": [
+      "metadata validator exists and validates required fields",
+      "checksum service computes file hashes",
+      "services are testable and have no trigger-specific logic"
+    ],
+    "notes": [
+      "Keep logic in services, not in Functions."
+    ]
+  },
+  {
+    "task_id": 7,
+    "phase": "Phase 3 — Intake pipeline",
+    "title": "Implement HTTP-triggered Function to receive Event Grid-style blob-created events",
+    "status": "not_started",
+    "acceptance_criteria": [
+      "HTTP-triggered function endpoint exists",
+      "function parses Event Grid-style payloads",
+      "invalid payloads are handled cleanly",
+      "function remains thin and delegates to orchestration service"
+    ],
+    "notes": [
+      "This is the local Event Grid simulation entrypoint."
+    ]
+  },
+  {
+    "task_id": 8,
+    "phase": "Phase 3 — Intake pipeline",
+    "title": "Implement intake orchestration service for validation, persistence, routing, and queue publishing",
+    "status": "not_started",
+    "acceptance_criteria": [
+      "orchestrator handles valid and invalid document flows",
+      "intake records are written to table storage",
+      "valid documents are routed for downstream processing",
+      "invalid documents are routed to quarantine"
+    ],
+    "notes": [
+      "Keep orchestration logic centralized and testable."
+    ]
+  },
+  {
+    "task_id": 9,
+    "phase": "Phase 4 — Downstream processing",
+    "title": "Implement queue-triggered document processing Function",
+    "status": "not_started",
+    "acceptance_criteria": [
+      "queue-triggered function exists",
+      "processing result is written to table storage",
+      "logging is clear and aligned with the intake flow"
+    ],
+    "notes": [
+      "Keep this intentionally lightweight for MVP."
+    ]
+  },
+  {
+    "task_id": 10,
+    "phase": "Phase 4 — Downstream processing",
+    "title": "Implement validated and quarantine blob routing behavior",
+    "status": "not_started",
+    "acceptance_criteria": [
+      "invalid documents are routed to quarantine-documents",
+      "valid documents are routed to validated-documents",
+      "routing logic is clear and auditable"
+    ],
+    "notes": [
+      "Use copy-based movement pattern (Azure standard)."
+    ]
+  },
+  {
+    "task_id": 11,
+    "phase": "Phase 5 — Event publishing and demo",
+    "title": "Create local console publisher to upload a sample document and post Event Grid-style payload",
+    "status": "not_started",
+    "acceptance_criteria": [
+      "console publisher uploads a sample file to raw-documents",
+      "publisher posts valid Event Grid-style payload to the local Function endpoint",
+      "publisher configuration is easy to adjust locally"
+    ],
+    "notes": [
+      "This should enable a complete local demo flow."
+    ]
+  },
+  {
+    "task_id": 12,
+    "phase": "Phase 5 — Event publishing and demo",
+    "title": "Add sample documents and local demo support files",
+    "status": "not_started",
+    "acceptance_criteria": [
+      "sample files exist under sample-data/",
+      "files are suitable for demonstrating ingestion flow",
+      "naming aligns with regulatory domain (e.g., sanctions.json, trades.csv)"
+    ],
+    "notes": [
+      "Keep files small and demo-friendly."
+    ]
+  },
+  {
+    "task_id": 13,
+    "phase": "Phase 6 — Quality",
+    "title": "Add unit tests for metadata validation and checksum services",
+    "status": "not_started",
+    "acceptance_criteria": [
+      "unit tests exist for metadata validation",
+      "unit tests exist for checksum generation",
+      "tests are deterministic and isolated"
+    ],
+    "notes": [
+      "Use xUnit."
+    ]
+  },
+  {
+    "task_id": 14,
+    "phase": "Phase 6 — Quality",
+    "title": "Add integration test coverage for the local intake pipeline against Azurite-compatible flow",
+    "status": "not_started",
+    "acceptance_criteria": [
+      "integration test project exists or is extended",
+      "core ingestion flow is covered end-to-end",
+      "environment/setup instructions are documented if needed"
+    ],
+    "notes": [
+      "Do not overcomplicate integration setup."
+    ]
+  },
+  {
+    "task_id": 15,
+    "phase": "Phase 7 — Portfolio polish",
+    "title": "Complete README with architecture summary, local run instructions, and production migration path",
+    "status": "not_started",
+    "acceptance_criteria": [
+      "README explains the project clearly",
+      "README documents Azurite-based local setup",
+      "README explains how to migrate to real Azure"
+    ],
+    "notes": [
+      "This is a portfolio asset, not just an internal README."
+    ]
+  },
+  {
+    "task_id": 16,
+    "phase": "Phase 7 — Portfolio polish",
+    "title": "Finalize documentation under docs folder and align it with the implemented solution",
+    "status": "not_started",
+    "acceptance_criteria": [
+      "docs are consistent with the codebase",
+      "architecture and ADR docs reflect actual implementation",
+      "demo instructions are usable"
+    ],
+    "notes": [
+      "Ensure no documentation drift."
+    ]
+  }
+]
