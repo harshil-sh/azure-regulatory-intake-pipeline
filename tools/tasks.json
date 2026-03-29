@@ -220,7 +220,7 @@
     "task_id": 16,
     "phase": "Phase 7 \u2014 Portfolio polish",
     "title": "Finalize documentation under docs folder and align it with the implemented solution",
-    "status": "not_started",
+    "status": "completed",
     "acceptance_criteria": [
       "docs are consistent with the codebase",
       "architecture and ADR docs reflect actual implementation",
