@@ -4,10 +4,10 @@ using RegulatoryIntake.Infrastructure.DependencyInjection;
 
 var host = new HostBuilder()
     .ConfigureFunctionsWorkerDefaults()
-    .ConfigureServices(services =>
+    .ConfigureServices((context, services) =>
     {
         services.AddApplicationServices();
-        services.AddInfrastructureServices();
+        services.AddInfrastructureServices(context.Configuration);
     })
     .Build();
 
