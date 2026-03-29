@@ -50,7 +50,10 @@ public sealed class AzureBlobStorageService : IBlobStorageService
         await destinationContainerClient.CreateIfNotExistsAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
 
         var destinationBlobClient = destinationContainerClient.GetBlobClient(destinationBlobName);
-        await destinationBlobClient.StartCopyFromUriAsync(sourceBlobClient.Uri, cancellationToken: cancellationToken).ConfigureAwait(false);
+        var copyOperation = await destinationBlobClient
+            .StartCopyFromUriAsync(sourceBlobClient.Uri, cancellationToken: cancellationToken)
+            .ConfigureAwait(false);
+        await copyOperation.WaitForCompletionAsync(cancellationToken).ConfigureAwait(false);
     }
 
     public async Task DeleteIfExistsAsync(
@@ -61,6 +64,9 @@ public sealed class AzureBlobStorageService : IBlobStorageService
         var blobClient = GetBlobClient(containerName, blobName);
         await blobClient.DeleteIfExistsAsync(cancellationToken: cancellationToken).ConfigureAwait(false);
     }
+
+    public Uri GetBlobUri(BlobContainerName containerName, string blobName) =>
+        GetBlobClient(containerName, blobName).Uri;
 
     private BlobClient GetBlobClient(BlobContainerName containerName, string blobName)
     {

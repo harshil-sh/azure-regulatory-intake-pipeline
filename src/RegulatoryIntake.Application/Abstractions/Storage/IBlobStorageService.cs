@@ -23,4 +23,6 @@ public interface IBlobStorageService
         BlobContainerName containerName,
         string blobName,
         CancellationToken cancellationToken = default);
+
+    Uri GetBlobUri(BlobContainerName containerName, string blobName);
 }
