@@ -7,3 +7,4 @@ TestResults/
 artifacts/
 local.settings.json
 .azurite/
+src/RegulatoryIntake.EventPublisher/appsettings.json

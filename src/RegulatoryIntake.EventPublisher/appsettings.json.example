@@ -1,0 +1,26 @@
+{
+  "Publisher": {
+    "Storage": {
+      "ConnectionString": "UseDevelopmentStorage=true",
+      "RawDocumentsContainer": "raw-documents"
+    },
+    "Event": {
+      "FunctionEndpoint": "http://localhost:7071/api/intake/events/blob-created",
+      "FunctionCode": "",
+      "Topic": "/subscriptions/local/resourceGroups/local/providers/Microsoft.Storage/storageAccounts/devstoreaccount1",
+      "EventType": "Microsoft.Storage.BlobCreated",
+      "DataVersion": "1",
+      "Api": "PutBlob"
+    },
+    "SampleDocument": {
+      "FilePath": "README.md",
+      "BlobName": "regulatory-intake-demo.md",
+      "ContentType": "text/markdown",
+      "Metadata": {
+        "correlationId": "demo-correlation-001",
+        "documentType": "RegulatoryFiling",
+        "sourceSystem": "LocalDemo"
+      }
+    }
+  }
+}

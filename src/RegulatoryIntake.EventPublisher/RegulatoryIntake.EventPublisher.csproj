@@ -7,6 +7,16 @@
 
   <ItemGroup>
     <PackageReference Include="Azure.Storage.Blobs" Version="12.22.2" />
-    <ProjectReference Include="..\RegulatoryIntake.Application\RegulatoryIntake.Application.csproj" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
+    <ProjectReference Include="..\RegulatoryIntake.Domain\RegulatoryIntake.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="appsettings.json.example">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
