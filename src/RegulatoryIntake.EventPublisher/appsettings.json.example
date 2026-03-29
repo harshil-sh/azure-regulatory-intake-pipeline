@@ -13,13 +13,13 @@
       "Api": "PutBlob"
     },
     "SampleDocument": {
-      "FilePath": "README.md",
-      "BlobName": "regulatory-intake-demo.md",
-      "ContentType": "text/markdown",
+      "FilePath": "sample-data/sanctions.json",
+      "BlobName": "sanctions.json",
+      "ContentType": "application/json",
       "Metadata": {
-        "correlationId": "demo-correlation-001",
-        "documentType": "RegulatoryFiling",
-        "sourceSystem": "LocalDemo"
+        "correlationId": "demo-sanctions-001",
+        "documentType": "SanctionsList",
+        "sourceSystem": "LocalDemoPublisher"
       }
     }
   }

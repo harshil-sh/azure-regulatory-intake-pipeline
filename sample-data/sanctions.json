@@ -1,0 +1,21 @@
+{
+  "listName": "OFAC Consolidated Screening Snapshot",
+  "generatedOnUtc": "2026-03-01T09:30:00Z",
+  "jurisdiction": "US",
+  "records": [
+    {
+      "entityId": "SDN-1001",
+      "entityName": "Northbridge Commodities Ltd",
+      "program": "SDN",
+      "riskCategory": "Sanctions",
+      "lastUpdatedUtc": "2026-02-18T14:12:00Z"
+    },
+    {
+      "entityId": "SDN-1002",
+      "entityName": "Baltic Industrial Shipping JSC",
+      "program": "SSI",
+      "riskCategory": "Sectoral Sanctions",
+      "lastUpdatedUtc": "2026-02-21T11:05:00Z"
+    }
+  ]
+}

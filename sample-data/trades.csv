@@ -1,0 +1,4 @@
+trade_id,execution_timestamp_utc,booking_entity,counterparty,instrument,notional_usd,sanctions_screening_status
+TRD-20260301-001,2026-03-01T08:15:00Z,RI-UK-01,Alder Ridge Capital,EUR/USD Spot,1250000,Cleared
+TRD-20260301-002,2026-03-01T08:47:00Z,RI-US-02,Northbridge Commodities Ltd,Brent Futures,840000,ReviewRequired
+TRD-20260301-003,2026-03-01T09:05:00Z,RI-EU-04,Helios Maritime SA,USD Interest Rate Swap,2100000,Cleared
