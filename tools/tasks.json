@@ -164,7 +164,7 @@
     "task_id": 12,
     "phase": "Phase 5 \u2014 Event publishing and demo",
     "title": "Add sample documents and local demo support files",
-    "status": "not_started",
+    "status": "completed",
     "acceptance_criteria": [
       "sample files exist under sample-data/",
       "files are suitable for demonstrating ingestion flow",
