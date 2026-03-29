@@ -1,1 +1,9 @@
 .codex-runner/
+bin/
+obj/
+.vs/
+.vscode/
+TestResults/
+artifacts/
+local.settings.json
+.azurite/

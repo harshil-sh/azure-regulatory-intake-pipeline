@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>RegulatoryIntake.EventPublisher</RootNamespace>
+    <AssemblyName>RegulatoryIntake.EventPublisher</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.22.2" />
+    <ProjectReference Include="..\RegulatoryIntake.Application\RegulatoryIntake.Application.csproj" />
+  </ItemGroup>
+</Project>

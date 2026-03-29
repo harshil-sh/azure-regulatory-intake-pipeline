@@ -1,0 +1,6 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <RootNamespace>RegulatoryIntake.Domain</RootNamespace>
+    <AssemblyName>RegulatoryIntake.Domain</AssemblyName>
+  </PropertyGroup>
+</Project>
