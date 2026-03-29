@@ -192,7 +192,7 @@
     "task_id": 14,
     "phase": "Phase 6 \u2014 Quality",
     "title": "Add integration test coverage for the local intake pipeline against Azurite-compatible flow",
-    "status": "not_started",
+    "status": "completed",
     "acceptance_criteria": [
       "integration test project exists or is extended",
       "core ingestion flow is covered end-to-end",
