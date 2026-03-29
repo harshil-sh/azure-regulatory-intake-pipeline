@@ -53,7 +53,7 @@ class CodexPortfolioRunner:
         extra_codex_args: list[str] | None = None,
         require_clean_git: bool = True,
         auto_commit: bool = True,
-        auto_push: bool = False,
+        auto_push: bool = True,
         dry_run: bool = False,
         docs_tasks_path: str = "docs/TASKS.md",
         docs_architecture_path: str = "docs/architecture.md",
