@@ -57,6 +57,18 @@ The system is built using:
 - `validated-documents`
 - `quarantine-documents`
 
+## Configuration
+
+The local Functions host uses the following configuration keys for storage-backed execution:
+- `AzureWebJobsStorage`
+- `Storage__ConnectionString`
+- `Storage__Containers__RawDocuments`
+- `Storage__Containers__ValidatedDocuments`
+- `Storage__Containers__QuarantineDocuments`
+- `Storage__Queues__DocumentProcessing`
+- `Storage__Tables__DocumentIntake`
+- `Storage__Tables__DocumentProcessing`
+
 ## Data Flow
 
 1. Document uploaded to Blob Storage (raw-documents)

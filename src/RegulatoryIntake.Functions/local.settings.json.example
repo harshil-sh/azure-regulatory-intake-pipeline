@@ -1,0 +1,14 @@
+{
+  "IsEncrypted": false,
+  "Values": {
+    "AzureWebJobsStorage": "UseDevelopmentStorage=true",
+    "FUNCTIONS_WORKER_RUNTIME": "dotnet-isolated",
+    "Storage__ConnectionString": "UseDevelopmentStorage=true",
+    "Storage__Containers__RawDocuments": "raw-documents",
+    "Storage__Containers__ValidatedDocuments": "validated-documents",
+    "Storage__Containers__QuarantineDocuments": "quarantine-documents",
+    "Storage__Queues__DocumentProcessing": "document-processing",
+    "Storage__Tables__DocumentIntake": "DocumentIntake",
+    "Storage__Tables__DocumentProcessing": "DocumentProcessing"
+  }
+}
