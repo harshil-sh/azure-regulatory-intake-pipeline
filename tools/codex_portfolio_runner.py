@@ -59,7 +59,7 @@ class CodexPortfolioRunner:
         docs_architecture_path: str = "docs/architecture.md",
         docs_adr_path: str = "docs/adr-local-infra.md",
         docs_standards_path: str = "docs/coding-standards.md",
-        ignore_paths: list[str] = [".codex-runner", "tools/tasks.json"],
+        ignore_paths: list[str] = [".codex-runner"],
     ) -> None:
         self.repo_root = repo_root.resolve()
         self.tasks_file = tasks_file.resolve()
