@@ -19,7 +19,7 @@
     "task_id": 2,
     "phase": "Phase 1 \u2014 Repo foundation",
     "title": "Add Docker Compose for Azurite with Blob, Queue, and Table services",
-    "status": "not_started",
+    "status": "completed",
     "acceptance_criteria": [
       "infra/docker-compose.yml exists",
       "Azurite exposes blob, queue, and table ports",
@@ -34,7 +34,7 @@
     "task_id": 3,
     "phase": "Phase 1 \u2014 Repo foundation",
     "title": "Add local settings and configuration scaffolding for storage-backed local execution",
-    "status": "not_started",
+    "status": "completed",
     "acceptance_criteria": [
       "local.settings.json.example exists",
       "all required storage/container/table/queue settings are represented",
@@ -49,7 +49,7 @@
     "task_id": 4,
     "phase": "Phase 2 \u2014 Core storage abstractions",
     "title": "Implement Blob, Queue, and Table storage service abstractions",
-    "status": "not_started",
+    "status": "completed",
     "acceptance_criteria": [
       "storage service classes exist and compile",
       "services are registered through dependency injection",
@@ -64,7 +64,7 @@
     "task_id": 5,
     "phase": "Phase 2 \u2014 Intake pipeline",
     "title": "Implement Event Grid-style event models and intake domain models",
-    "status": "not_started",
+    "status": "completed",
     "acceptance_criteria": [
       "Event Grid envelope model exists",
       "blob-created event data model exists",
@@ -78,7 +78,7 @@
     "task_id": 6,
     "phase": "Phase 2 \u2014 Intake pipeline",
     "title": "Implement metadata validation and checksum services",
-    "status": "not_started",
+    "status": "completed",
     "acceptance_criteria": [
       "metadata validator exists and validates required fields",
       "checksum service computes file hashes",
