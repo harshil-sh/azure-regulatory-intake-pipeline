@@ -92,7 +92,7 @@
     "task_id": 7,
     "phase": "Phase 3 \u2014 Intake pipeline",
     "title": "Implement HTTP-triggered Function to receive Event Grid-style blob-created events",
-    "status": "not_started",
+    "status": "completed",
     "acceptance_criteria": [
       "HTTP-triggered function endpoint exists",
       "function parses Event Grid-style payloads",
@@ -107,7 +107,7 @@
     "task_id": 8,
     "phase": "Phase 3 \u2014 Intake pipeline",
     "title": "Implement intake orchestration service for validation, persistence, routing, and queue publishing",
-    "status": "not_started",
+    "status": "completed",
     "acceptance_criteria": [
       "orchestrator handles valid and invalid document flows",
       "intake records are written to table storage",
@@ -122,7 +122,7 @@
     "task_id": 9,
     "phase": "Phase 4 \u2014 Downstream processing",
     "title": "Implement queue-triggered document processing Function",
-    "status": "not_started",
+    "status": "completed",
     "acceptance_criteria": [
       "queue-triggered function exists",
       "processing result is written to table storage",
@@ -136,7 +136,7 @@
     "task_id": 10,
     "phase": "Phase 4 \u2014 Downstream processing",
     "title": "Implement validated and quarantine blob routing behavior",
-    "status": "not_started",
+    "status": "completed",
     "acceptance_criteria": [
       "invalid documents are routed to quarantine-documents",
       "valid documents are routed to validated-documents",
@@ -150,7 +150,7 @@
     "task_id": 11,
     "phase": "Phase 5 \u2014 Event publishing and demo",
     "title": "Create local console publisher to upload a sample document and post Event Grid-style payload",
-    "status": "not_started",
+    "status": "completed",
     "acceptance_criteria": [
       "console publisher uploads a sample file to raw-documents",
       "publisher posts valid Event Grid-style payload to the local Function endpoint",
