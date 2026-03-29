@@ -25,7 +25,10 @@ The system is built using:
 ### 1. Blob Storage (Raw Zone)
 - Container: `raw-documents`
 - Stores incoming regulatory files
-- Includes metadata required for validation
+- Stores metadata required for validation:
+  - `correlationId`
+  - `documentType`
+  - `sourceSystem`
 
 ### 2. Event Publisher (Local)
 - Simulates Azure Event Grid
@@ -33,16 +36,19 @@ The system is built using:
 
 ### 3. Intake Function
 - Trigger: HTTP (Event Grid-style event)
+- Route: `POST /api/intake/events/blob-created`
 - Responsibilities:
   - Parse event
+  - Read blob metadata and content from `raw-documents`
   - Validate metadata
   - Compute checksum
-  - Persist intake record
-  - Route document
+  - Persist intake audit record to `DocumentIntake`
+  - Route document with copy-then-delete semantics
+  - Publish a queue message for valid documents
 
 ### 4. Table Storage
-- `DocumentIntake` → intake records
-- `DocumentProcessing` → processing status
+- `DocumentIntake` → intake audit record including status, checksum, correlation ID, and validation errors when present
+- `DocumentProcessing` → downstream processing status for validated documents
 
 ### 5. Queue Storage
 - Queue: `document-processing`
@@ -50,8 +56,9 @@ The system is built using:
 
 ### 6. Processing Function
 - Trigger: Queue
-- Performs downstream processing
-- Updates processing status
+- Queue binding: `%Storage__Queues__DocumentProcessing%`
+- Performs thin trigger handling, deserializes the queue payload, and delegates to `DocumentProcessingService`
+- Writes a completed processing record to `DocumentProcessing`
 
 ### 7. Blob Storage (Processed Zones)
 - `validated-documents`
@@ -74,13 +81,14 @@ The local Functions host uses the following configuration keys for storage-backe
 1. Document uploaded to Blob Storage (raw-documents)
 2. Event publisher sends Event Grid-style event
 3. Intake function processes event
-4. Metadata validated
-5. Intake record written to Table Storage
-6. Document routed:
-   - Valid → validated-documents + queue message
-   - Invalid → quarantine-documents
-7. Processing function consumes queue message
-8. Processing result stored
+4. Orchestrator reads blob metadata and content from `raw-documents`
+5. Metadata validated and checksum computed
+6. Blob routed with copy-then-delete behavior:
+   - Valid → `validated-documents` + queue message
+   - Invalid → `quarantine-documents`
+7. Intake record written to `DocumentIntake`
+8. Processing function consumes queue message for validated documents
+9. Processing result stored in `DocumentProcessing`
 
 ## Key Design Decisions
 
@@ -88,6 +96,7 @@ The local Functions host uses the following configuration keys for storage-backe
 - Azurite replaces Azure Storage
 - Storage SDKs are used exactly as in production
 - Functions remain thin; logic lives in services
+- Correlation IDs are sourced from blob metadata when present, otherwise from the incoming event payload
 
 ## Non-Goals
 

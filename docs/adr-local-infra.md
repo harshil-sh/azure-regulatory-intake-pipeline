@@ -19,7 +19,9 @@ Use Azurite (Azure Storage emulator) for:
 - Queue Storage
 - Table Storage
 
-Use HTTP-triggered Azure Function to simulate Event Grid ingestion using Event Grid-compliant payloads.
+Use an HTTP-triggered Azure Function at `POST /api/intake/events/blob-created` to simulate Event Grid ingestion using Event Grid-style payloads.
+
+Keep the Functions layer thin and place intake orchestration, validation, checksum generation, routing, and downstream processing logic in application services.
 
 ## Rationale
 
@@ -31,7 +33,7 @@ Use HTTP-triggered Azure Function to simulate Event Grid ingestion using Event G
 
 ### Why not emulate Event Grid?
 - No official local Event Grid emulator
-- HTTP simulation preserves event contract
+- HTTP simulation preserves the event contract used by the implementation
 - Keeps architecture honest and simple
 
 ### Why not mock everything?
@@ -68,7 +70,7 @@ Rejected:
 
 To move to Azure:
 - Replace connection strings
-- Configure Event Grid subscriptions
+- Configure Event Grid subscriptions to target the intake endpoint
 - Deploy Functions to Azure
 - Add managed identity and Key Vault
 

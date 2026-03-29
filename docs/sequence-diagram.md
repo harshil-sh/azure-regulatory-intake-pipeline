@@ -5,7 +5,7 @@
 ```text
 User / Script
     |
-    | Upload document
+    | Upload document with metadata
     v
 Azurite Blob Storage (raw-documents)
     |
@@ -15,15 +15,17 @@ Event Publisher (Console App)
     |
     | POST Event Grid payload
     v
-BlobUploadWebhookFunction (HTTP Trigger)
+BlobCreatedEventIntakeFunction (HTTP Trigger)
     |
-    | Parse event
+    | Parse event payload
     v
 IntakeOrchestrator
     |
+    |-- Read blob metadata and content
     |-- Validate metadata
     |-- Compute checksum
-    |-- Persist intake record
+    |-- Route blob via copy + delete
+    |-- Persist intake record to Table Storage (DocumentIntake)
     |
     |---- if invalid ----> Blob Storage (quarantine-documents)
     |
@@ -35,6 +37,7 @@ IntakeOrchestrator
     v
 DocumentProcessingFunction (Queue Trigger)
     |
-    | Process document
+    | Delegate to DocumentProcessingService
     v
 Table Storage (DocumentProcessing)
+```

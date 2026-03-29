@@ -206,7 +206,7 @@
     "task_id": 15,
     "phase": "Phase 7 \u2014 Portfolio polish",
     "title": "Complete README with architecture summary, local run instructions, and production migration path",
-    "status": "not_started",
+    "status": "completed",
     "acceptance_criteria": [
       "README explains the project clearly",
       "README documents Azurite-based local setup",
