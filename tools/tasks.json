@@ -1,9 +1,9 @@
 [
   {
     "task_id": 1,
-    "phase": "Phase 1 — Repo foundation",
+    "phase": "Phase 1 \u2014 Repo foundation",
     "title": "Create production-grade solution structure for Azure Functions pipeline",
-    "status": "not_started",
+    "status": "completed",
     "acceptance_criteria": [
       "solution and project structure exist for Functions, EventPublisher, tests, docs, infra, and sample-data",
       "project names are clean and consistent with the regulatory intake domain",
@@ -17,7 +17,7 @@
   },
   {
     "task_id": 2,
-    "phase": "Phase 1 — Repo foundation",
+    "phase": "Phase 1 \u2014 Repo foundation",
     "title": "Add Docker Compose for Azurite with Blob, Queue, and Table services",
     "status": "not_started",
     "acceptance_criteria": [
@@ -32,7 +32,7 @@
   },
   {
     "task_id": 3,
-    "phase": "Phase 1 — Repo foundation",
+    "phase": "Phase 1 \u2014 Repo foundation",
     "title": "Add local settings and configuration scaffolding for storage-backed local execution",
     "status": "not_started",
     "acceptance_criteria": [
@@ -47,7 +47,7 @@
   },
   {
     "task_id": 4,
-    "phase": "Phase 2 — Core storage abstractions",
+    "phase": "Phase 2 \u2014 Core storage abstractions",
     "title": "Implement Blob, Queue, and Table storage service abstractions",
     "status": "not_started",
     "acceptance_criteria": [
@@ -62,7 +62,7 @@
   },
   {
     "task_id": 5,
-    "phase": "Phase 2 — Intake pipeline",
+    "phase": "Phase 2 \u2014 Intake pipeline",
     "title": "Implement Event Grid-style event models and intake domain models",
     "status": "not_started",
     "acceptance_criteria": [
@@ -76,7 +76,7 @@
   },
   {
     "task_id": 6,
-    "phase": "Phase 2 — Intake pipeline",
+    "phase": "Phase 2 \u2014 Intake pipeline",
     "title": "Implement metadata validation and checksum services",
     "status": "not_started",
     "acceptance_criteria": [
@@ -90,7 +90,7 @@
   },
   {
     "task_id": 7,
-    "phase": "Phase 3 — Intake pipeline",
+    "phase": "Phase 3 \u2014 Intake pipeline",
     "title": "Implement HTTP-triggered Function to receive Event Grid-style blob-created events",
     "status": "not_started",
     "acceptance_criteria": [
@@ -105,7 +105,7 @@
   },
   {
     "task_id": 8,
-    "phase": "Phase 3 — Intake pipeline",
+    "phase": "Phase 3 \u2014 Intake pipeline",
     "title": "Implement intake orchestration service for validation, persistence, routing, and queue publishing",
     "status": "not_started",
     "acceptance_criteria": [
@@ -120,7 +120,7 @@
   },
   {
     "task_id": 9,
-    "phase": "Phase 4 — Downstream processing",
+    "phase": "Phase 4 \u2014 Downstream processing",
     "title": "Implement queue-triggered document processing Function",
     "status": "not_started",
     "acceptance_criteria": [
@@ -134,7 +134,7 @@
   },
   {
     "task_id": 10,
-    "phase": "Phase 4 — Downstream processing",
+    "phase": "Phase 4 \u2014 Downstream processing",
     "title": "Implement validated and quarantine blob routing behavior",
     "status": "not_started",
     "acceptance_criteria": [
@@ -148,7 +148,7 @@
   },
   {
     "task_id": 11,
-    "phase": "Phase 5 — Event publishing and demo",
+    "phase": "Phase 5 \u2014 Event publishing and demo",
     "title": "Create local console publisher to upload a sample document and post Event Grid-style payload",
     "status": "not_started",
     "acceptance_criteria": [
@@ -162,7 +162,7 @@
   },
   {
     "task_id": 12,
-    "phase": "Phase 5 — Event publishing and demo",
+    "phase": "Phase 5 \u2014 Event publishing and demo",
     "title": "Add sample documents and local demo support files",
     "status": "not_started",
     "acceptance_criteria": [
@@ -176,7 +176,7 @@
   },
   {
     "task_id": 13,
-    "phase": "Phase 6 — Quality",
+    "phase": "Phase 6 \u2014 Quality",
     "title": "Add unit tests for metadata validation and checksum services",
     "status": "not_started",
     "acceptance_criteria": [
@@ -190,7 +190,7 @@
   },
   {
     "task_id": 14,
-    "phase": "Phase 6 — Quality",
+    "phase": "Phase 6 \u2014 Quality",
     "title": "Add integration test coverage for the local intake pipeline against Azurite-compatible flow",
     "status": "not_started",
     "acceptance_criteria": [
@@ -204,7 +204,7 @@
   },
   {
     "task_id": 15,
-    "phase": "Phase 7 — Portfolio polish",
+    "phase": "Phase 7 \u2014 Portfolio polish",
     "title": "Complete README with architecture summary, local run instructions, and production migration path",
     "status": "not_started",
     "acceptance_criteria": [
@@ -218,7 +218,7 @@
   },
   {
     "task_id": 16,
-    "phase": "Phase 7 — Portfolio polish",
+    "phase": "Phase 7 \u2014 Portfolio polish",
     "title": "Finalize documentation under docs folder and align it with the implemented solution",
     "status": "not_started",
     "acceptance_criteria": [
